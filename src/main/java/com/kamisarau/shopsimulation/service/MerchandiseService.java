@@ -38,13 +38,11 @@ public class MerchandiseService {
                 //TODO go back that new item doesnt fit
             }
 
-            if (storedItem.getHeight() > shelfLevel) {
-                shelfLevel += storedItem.getHeight();
-            }
-
             if (shelf.getWidth() < x + storedItem.getWidth()) {
                 y = shelfLevel;
                 x = 1;
+            } else if (storedItem.getHeight() > shelfLevel) {
+                shelfLevel += storedItem.getHeight();
             }
 
             storedItem
