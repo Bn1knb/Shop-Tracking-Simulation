@@ -1,7 +1,8 @@
 package com.kamisarau.shopsimulation.service;
 
-import com.kamisarau.shopsimulation.model.RectangularShape;
+import com.kamisarau.shopsimulation.model.Product;
 import com.kamisarau.shopsimulation.model.Shelf;
+import com.kamisarau.shopsimulation.model.Storable;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -10,11 +11,11 @@ import java.util.List;
 public class MerchandiseService {
     private Shelf shelf;
 
-    private boolean canStore(RectangularShape item) {
+    private boolean canStore(Storable item) {
         return shelf.getHeight() * shelf.getWidth() >= item.getHeight() * item.getWidth();
     }
 
-    public void storeOnShelf(RectangularShape item) {
+    public List<Storable> storeOnShelf(Storable item) {
         boolean doesFit = true;
 
         if (!canStore(item)) {
@@ -26,41 +27,49 @@ public class MerchandiseService {
             item.rotate();
         }
 
-        List<RectangularShape> withNewItem = shelf.getProducts();
+        List<Storable> withNewItem = shelf.getProducts(); //TODO think of caching this
         withNewItem.add(item);
 
         int x = 1;
         int y = 1;
         int shelfLevel = 0;
-        for (RectangularShape storedItem : withNewItem) {
+        for (Storable storedItem : withNewItem) {
             if (shelf.getHeight() < shelfLevel + storedItem.getHeight()) {
                 doesFit = false;
                 //TODO go back that new item doesnt fit
             }
 
-            if (shelf.getWidth() < x + storedItem.getWidth()) {
+            if (shelf.getWidth() + 1 < x + storedItem.getWidth()) {
                 y = shelfLevel;
                 x = 1;
-            } else if (storedItem.getHeight() > shelfLevel) {
-                shelfLevel += storedItem.getHeight();
             }
 
-            storedItem
-                    .setX(x)
-                    .setY(y);
+            if (storedItem.getHeight() > shelfLevel - y) {
+                shelfLevel = y + storedItem.getHeight();
+            }
+
+            storedItem.setX(x);
+            storedItem.setY(y);
 
             x += storedItem.getWidth();
         }
 
-        if (doesFit) {
-            shelf.setProducts(withNewItem);
+        if (!doesFit) {
+            shelf.getProducts().remove(shelf.getProducts().size() - 1);
+            //TODO bring back to store
             //TODO service store in database
-        } else {
-            bringBack(item);
         }
+
+        return shelf.getProducts();
     }
 
-    public void bringBack(RectangularShape item) {
-        //TODO back on sklad
+    public Storable removeItem(int index) {
+        return shelf.getProducts().remove(index);
+    }
+
+    public Product setPrice(Product product, double price) {
+        product.setPrice(price);
+        //TODO move this to the price service and save the priceChangeHistory
+        return product;
     }
 }
