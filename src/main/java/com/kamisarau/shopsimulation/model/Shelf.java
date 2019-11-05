@@ -21,7 +21,7 @@ public class Shelf implements Container, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToMany(mappedBy = "shelf", targetEntity = AbstractRectangularShape.class, fetch = FetchType.EAGER)
-    private List<Storable> products = new ArrayList<>();
+    private List<Storable> items = new ArrayList<>();
     @Value("${shelf.width}")
     private int width;
     @Value("${shelf.height}")
@@ -29,6 +29,6 @@ public class Shelf implements Container, Serializable {
 
     @Override
     public void store(Storable item) {
-        products.add(item);
+        items.add(item);
     }
 }

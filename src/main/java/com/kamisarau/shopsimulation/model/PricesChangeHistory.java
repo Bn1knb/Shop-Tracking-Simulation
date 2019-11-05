@@ -14,7 +14,7 @@ import java.util.Date;
 public class PricesChangeHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private double price;
     private Product product;
     @CreatedDate

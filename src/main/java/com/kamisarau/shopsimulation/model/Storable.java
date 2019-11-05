@@ -17,5 +17,9 @@ public interface Storable {
 
     void setY(int y);
 
-    void rotate();
+    default void rotate() {
+        int temp = getWidth();
+        setWidth(getHeight());
+        setHeight(temp);
+    }
 }
