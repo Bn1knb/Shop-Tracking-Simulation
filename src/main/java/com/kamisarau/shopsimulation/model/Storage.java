@@ -9,10 +9,15 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class Storage {
+public class Storage implements Storable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToMany(mappedBy = "storage")
-    private List<Category> category;
+    private List<AbstractRectangularItem> items;
+
+    @Override
+    public void store(AbstractRectangularItem item) {
+        items.add(item);
+    }
 }

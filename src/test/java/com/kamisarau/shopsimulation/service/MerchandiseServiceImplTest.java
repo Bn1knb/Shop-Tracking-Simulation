@@ -1,12 +1,12 @@
 package com.kamisarau.shopsimulation.service;
 
-import com.kamisarau.shopsimulation.model.Container;
+import com.kamisarau.shopsimulation.model.AbstractRectangularItem;
 import com.kamisarau.shopsimulation.model.Product;
 import com.kamisarau.shopsimulation.model.Shelf;
-import com.kamisarau.shopsimulation.model.Storable;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,47 +15,48 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+@SpringBootTest
 class MerchandiseServiceImplTest {
     @Autowired
     private MerchandiseService merchandiseService;
-    private Container testContainer;
+    private Shelf testShelf;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
-        testContainer = new Shelf()
-                .setHeight(20)
+        testShelf = new Shelf()
+                .setWidth(20)
                 .setHeight(20);
     }
 
     @Test
     void testStoringItemDoesntFit() {
-        Storable productThatDoesntFit = new Product();
+        AbstractRectangularItem productThatDoesntFit = new Product();
         productThatDoesntFit.setHeight(5);
         productThatDoesntFit.setWidth(5);
-        fullyPopulateContainer(testContainer);
+        fullyPopulateShelf(testShelf);
 
-        int expectedSize = testContainer.getItems().size();
-        List<Storable> actualSize = merchandiseService.storeOnShelf(productThatDoesntFit, testContainer);
+        int expectedSize = testShelf.getItems().size();
+        List<AbstractRectangularItem> actualSize = merchandiseService.storeOnShelf(productThatDoesntFit, testShelf);
 
         assertEquals(expectedSize, actualSize.size());
     }
 
     @Test
     void testProductBiggerThenShelf() {
-        Storable productBiggerThanShelf = new Product();
+        AbstractRectangularItem productBiggerThanShelf = new Product();
         productBiggerThanShelf.setWidth(21);
         productBiggerThanShelf.setHeight(21);
 
-        assertFalse(merchandiseService.canStore(productBiggerThanShelf, testContainer));
+        assertFalse(merchandiseService.canStore(productBiggerThanShelf, testShelf));
     }
 
-    void fullyPopulateContainer(Container container) {
-        container.setItems(
+    void fullyPopulateShelf(Shelf shelf) {
+        shelf.setItems(
                 Stream.of(
-                        new Product(4, 2),
-                        new Product(7, 5),
-                        new Product(9, 10),
-                        new Product(16, 9)
+                        new Product().setWidth(4).setHeight(2),
+                        new Product().setWidth(7).setHeight(5),
+                        new Product().setWidth(9).setHeight(10),
+                        new Product().setWidth(16).setHeight(9)
                 )
                         .collect(Collectors.toList())
         );

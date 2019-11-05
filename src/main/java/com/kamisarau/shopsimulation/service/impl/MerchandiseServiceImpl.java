@@ -1,60 +1,59 @@
 package com.kamisarau.shopsimulation.service.impl;
 
-import com.kamisarau.shopsimulation.model.Container;
+import com.kamisarau.shopsimulation.model.AbstractRectangularItem;
 import com.kamisarau.shopsimulation.model.Product;
-import com.kamisarau.shopsimulation.model.Storable;
+import com.kamisarau.shopsimulation.model.Shelf;
 import com.kamisarau.shopsimulation.service.MerchandiseService;
-import com.kamisarau.shopsimulation.service.ProductService;
-import com.kamisarau.shopsimulation.service.ContainerService;
+import com.kamisarau.shopsimulation.service.ItemService;
+import com.kamisarau.shopsimulation.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class MerchandiseServiceImpl implements MerchandiseService {
-    private ProductService productService;
-    private ContainerService containerService;
+    private ItemService itemService;
+    private ShelfService shelfService;
 
     @Autowired
-    public MerchandiseServiceImpl(ProductService productService, ContainerService containerService) {
-        this.productService = productService;
-        this.containerService = containerService;
+    public MerchandiseServiceImpl(ItemService itemService, ShelfService shelfService) {
+        this.itemService = itemService;
+        this.shelfService = shelfService;
     }
 
     @Override
-    public boolean canStore(Storable item, Container container) {
-        return container.getHeight() * container.getWidth() >= item.getHeight() * item.getWidth();
+    public boolean canStore(AbstractRectangularItem item, Shelf shelf) {
+        return shelf.getHeight() * shelf.getWidth() >= item.getHeight() * item.getWidth();
     }
 
     @Override
-    public List<Storable> storeOnShelf(Storable item, Container container) {
+    public List<AbstractRectangularItem> storeOnShelf(AbstractRectangularItem item, Shelf shelf) {
 
-        if (!canStore(item, container)) {
-            productService.bringBack(item);
-            return container.getItems();
+        if (!canStore(item, shelf)) {
+            itemService.bringBack(item);
+            return shelf.getItems();
         }
 
         if (item.getWidth() < item.getHeight()) {
             item.rotate();
         }
 
-        List<Storable> withNewItem = new ArrayList<>(container.getItems()); //TODO think of caching this
+        List<AbstractRectangularItem> withNewItem = new ArrayList<>(shelf.getItems()); //TODO think of caching this
         withNewItem.add(item);
 
         int x = 1;
         int y = 1;
         int shelfLevel = 0;
 
-        for (Storable storedItem : withNewItem) {
-            if (container.getHeight() < shelfLevel + storedItem.getHeight()) {
-                productService.bringBack(item);
-                return container.getItems();
+        for (AbstractRectangularItem storedItem : withNewItem) {
+            if (shelf.getHeight() < shelfLevel + storedItem.getHeight()) {
+                itemService.bringBack(item);
+                return shelf.getItems();
             }
 
-            if (container.getWidth() + 1 < x + storedItem.getWidth()) {
+            if (shelf.getWidth() + 1 < x + storedItem.getWidth()) {
                 y = shelfLevel;
                 x = 1;
             }
@@ -69,12 +68,12 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             x += storedItem.getWidth();
         }
 
-        return container.getItems();
+        return shelf.getItems();
     }
 
     @Override
-    public Storable removeItem(int index, Container container) {
-        return container.getItems().remove(index);//TODO change similar to the service abstraction
+    public AbstractRectangularItem removeItem(int index, Shelf shelf) {
+        return shelf.getItems().remove(index);//TODO change similar to the service abstraction
     }
 
     @Override

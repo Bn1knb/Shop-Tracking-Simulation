@@ -16,19 +16,19 @@ import java.util.List;
 @Accessors(chain = true)
 @PropertySource(value = "classpath:shelf.properties")
 @NoArgsConstructor
-public class Shelf implements Container, Serializable {
+public class Shelf implements Storable, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @OneToMany(mappedBy = "shelf", targetEntity = AbstractRectangularShape.class, fetch = FetchType.EAGER)
-    private List<Storable> items = new ArrayList<>();
+    private Long id;
+    @OneToMany(mappedBy = "shelf", targetEntity = AbstractRectangularItem.class, fetch = FetchType.EAGER)
+    private List<AbstractRectangularItem> items;
     @Value("${shelf.width}")
     private int width;
     @Value("${shelf.height}")
     private int height;
 
     @Override
-    public void store(Storable item) {
+    public void store(AbstractRectangularItem item) {
         items.add(item);
     }
 }
