@@ -48,6 +48,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
         int shelfLevel = 0;
 
         for (AbstractRectangularItem storedItem : withNewItem) {
+
             if (shelf.getHeight() < shelfLevel + storedItem.getHeight()) {
                 itemService.bringBack(item);
                 return shelf.getItems();
