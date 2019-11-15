@@ -8,10 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "SHELF")
 @Data
 @Accessors(chain = true)
 @PropertySource(value = "classpath:shelf.properties")
@@ -19,16 +18,17 @@ import java.util.List;
 public class Shelf implements Storable, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SHELF_ID")
     private Long id;
-    @OneToMany(mappedBy = "shelf", targetEntity = AbstractRectangularItem.class, fetch = FetchType.EAGER)
-    private List<AbstractRectangularItem> items;
-    @Value("${shelf.width}")
+    @OneToMany(targetEntity = WrappedProduct.class)
+    private List<WrappedProduct> products;
+    @Column(name = "WIDTH")
     private int width;
-    @Value("${shelf.height}")
+    @Column(name = "HEIGHT")
     private int height;
 
     @Override
-    public void store(AbstractRectangularItem item) {
-        items.add(item);
+    public void store(WrappedProduct product) {
+        products.add(product);
     }
 }

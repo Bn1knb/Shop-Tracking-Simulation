@@ -1,19 +1,28 @@
 package com.kamisarau.shopsimulation.service;
 
-import com.kamisarau.shopsimulation.model.AbstractRectangularItem;
+import com.kamisarau.shopsimulation.model.Category;
 import com.kamisarau.shopsimulation.model.Product;
 import com.kamisarau.shopsimulation.model.Shelf;
+import com.kamisarau.shopsimulation.model.WrappedProduct;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface MerchandiseService {
-    boolean canStore(AbstractRectangularItem item, Shelf shelf);
+    boolean isProductBiggerThanShelf(WrappedProduct product, Shelf shelf);
 
-    List<AbstractRectangularItem> storeOnShelf(AbstractRectangularItem item, Shelf shelf);
+    boolean storeOnShelf(WrappedProduct product, Shelf shelf);
 
-    AbstractRectangularItem removeItem(int index, Shelf shelf);
+    WrappedProduct removeFromShelf(WrappedProduct wrappedProduct, Shelf shelf);
 
-    Product setPrice(Product product, double price);
+    WrappedProduct setPrice(WrappedProduct product, double price);
+
+    WrappedProduct setCategory(WrappedProduct wrappedProduct, Category category);
+
+    WrappedProduct getProductFromStorage(String name);
+
+    Product bringProductToStorage(WrappedProduct product);
+
+    WrappedProduct prepare(Product product);
+
+    Product prepare(WrappedProduct wrappedProduct);
 }

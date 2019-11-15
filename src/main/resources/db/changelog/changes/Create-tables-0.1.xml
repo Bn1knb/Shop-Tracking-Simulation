@@ -1,0 +1,76 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table product (product_name varchar(255) not null, product_height int4, product_width int4, primary
+            key (product_name));
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table wrapped_product (wrapped_product_name varchar(255) not null, x_position int4, y_position int4,
+            wrapperd_product_category varchar(255), wrapped_product_height int4, wrapped_product_price float8,
+            wrapperd_product_width int4, primary key (wrapped_product_name));
+        </sql>
+    </changeSet>
+    <changeSet id="3" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table shelf (shelf_id bigserial not null, height int4, width int4, primary key (shelf_id));
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table shelf_products (shelf_id int8 not null, products_wrapped_product_name varchar(255) not
+            null);
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table shop_storage (storage_id bigserial not null, amount int4, default_amount int4, primary key
+            (storage_id))
+        </sql>
+    </changeSet>
+    <changeSet id="6" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table storage_product (product_name varchar(255), storage_id int8 not null, primary key (storage_id))
+        </sql>
+    </changeSet>
+    <changeSet id="7" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table wrapped_product_aud (wrapped_product_name varchar(255) not null, rev int4 not null, revtype
+            int2, wrapped_product_price float8, primary key (wrapped_product_name, rev))
+        </sql>
+    </changeSet>
+    <changeSet id="8" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table revinfo (rev int4 not null, revtstmp int8, primary key (rev))
+        </sql>
+    </changeSet>
+    <changeSet id="9" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            alter table shelf_products add constraint FK8uhq5eyib2lmqr9votamxoec9 foreign key
+            (products_wrapped_product_name) references wrapped_product;
+            alter table shelf_products add constraint FK16jkf9yvs14yjoeka7g8uth16 foreign key (shelf_shelf_id)
+            references shelf;
+            alter table storage_product add constraint FK33qi9i9o4t0oujsyeaidwy8ly foreign key (product_name) references
+            product;
+            alter table storage_product add constraint FKg6hpd1f1wp960ar4i3ttxgbrt foreign key (storage_id) references
+            shop_storage;
+            alter table wrapped_product_aud add constraint FK9e98hat4ga1dgx3gox5pywcrv foreign key (rev) references
+            revinfo;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

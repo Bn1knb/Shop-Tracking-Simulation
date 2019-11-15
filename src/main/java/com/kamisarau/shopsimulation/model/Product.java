@@ -1,21 +1,23 @@
 package com.kamisarau.shopsimulation.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.io.Serializable;
 
-@EqualsAndHashCode(callSuper = true)
-@Entity
+@Entity(name = "PRODUCT")
 @Data
 @Accessors(chain = true)
-@DiscriminatorValue("product")
 @NoArgsConstructor
-public class Product extends AbstractRectangularItem implements Serializable {
+public class Product implements Serializable {
+    @Id
+    @Column(name = "PRODUCT_NAME", unique = true)
     private String name;
+    @Column(name = "PRODUCT_WIDTH")
+    private int width;
+    @Column(name = "PRODUCT_HEIGHT")
+    private int height;
 }
 

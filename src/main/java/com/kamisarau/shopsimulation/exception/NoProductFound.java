@@ -1,4 +1,11 @@
 package com.kamisarau.shopsimulation.exception;
 
-public class NoProductFound {
+public class NoProductFound extends RuntimeException{
+    public NoProductFound(String message) {
+        super(message);
+    }
+
+    public NoProductFound() {
+        super();
+    }
 }

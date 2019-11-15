@@ -1,29 +1,16 @@
 package com.kamisarau.shopsimulation.model;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
-@Accessors(chain = true)
 @Data
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
-public abstract class AbstractRectangularItem extends Item {
+@MappedSuperclass
+public class AbstractRectangularItem {
 
-    private int x, y;
-    private int width;
-    private int height;
-
-    @ManyToOne(targetEntity = Shelf.class, fetch = FetchType.EAGER)
-    private Shelf shelf;
-    @ManyToOne(targetEntity = Storage.class, fetch = FetchType.EAGER)
-    private Storage storage;
-
-    public void rotate() {
-        int temp = width;
-        width = height;
-        height = temp;
-    }
+    @Column(name = "X_POSITION")
+    private int x;
+    @Column(name = "Y_POSITION")
+    private int y;
 }
