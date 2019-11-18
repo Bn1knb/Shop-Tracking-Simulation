@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-
+//TODO add delete product by name
+//todo need of saving product before save storage if product not exists
 @Service
 public class StorageServiceImpl implements StorageService {
     private StorageRepository storageRepository;
@@ -36,7 +37,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public Product storeProduct(Product newProduct, int amount) {
+    public Product storeProducts(Product newProduct, int amount) {
         Storage storage = storageRepository.getByProductName(newProduct.getName())
                 .orElse(
                         new Storage()
@@ -63,7 +64,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public List<Product> removeProduct(String productName, int amount) throws NoProductFound {
+    public List<Product> removeProducts(String productName, int amount) throws NoProductFound {
         Storage storage = storageRepository.getByProductName(productName)
                 .orElseThrow(NoProductFound::new);
 

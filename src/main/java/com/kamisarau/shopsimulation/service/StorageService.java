@@ -10,9 +10,9 @@ import java.util.List;
 public interface StorageService {
     Product storeProduct(Product product);
 
-    Product storeProduct(Product product, int amount);
+    Product storeProducts(Product product, int amount);
 
     Product removeProduct(String productName) throws NoProductFound;
 
-    List<Product> removeProduct(String productName, int amount) throws NoProductFound;
+    List<Product> removeProducts(String productName, int amount) throws NoProductFound;
 }

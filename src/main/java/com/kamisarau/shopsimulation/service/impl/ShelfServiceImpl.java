@@ -8,6 +8,7 @@ import com.kamisarau.shopsimulation.service.ShelfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,10 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public WrappedProduct storeProduct(WrappedProduct product, Shelf shelf) {
+        if(shelf.getProducts() == null) {
+            shelf.setProducts(new ArrayList<>());
+        }
+
         shelf.store(product);
         shelfRepository.save(shelf);
         return product;
@@ -56,6 +61,10 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<WrappedProduct> storeProduct(List<WrappedProduct> products, Shelf shelf) {
+        if(shelf.getProducts() == null) {
+            shelf.setProducts(new ArrayList<>());
+        }
+
         products.forEach(shelf::store);
         shelfRepository.save(shelf);
         return products;

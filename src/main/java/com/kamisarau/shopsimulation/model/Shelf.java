@@ -3,7 +3,6 @@ package com.kamisarau.shopsimulation.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.*;
@@ -17,7 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Shelf implements Storable, Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "pk_shelf_sequence", sequenceName = "entity_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_shelf_sequence")
     @Column(name = "SHELF_ID")
     private Long id;
     @OneToMany(targetEntity = WrappedProduct.class)

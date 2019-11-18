@@ -13,18 +13,12 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class Storage implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "pk_storage_sequense", sequenceName = "entity_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_storage_sequence")
     @Column(name = "STORAGE_ID", unique = true)
     private Long id;
-    @OneToOne(targetEntity = Product.class)
-    @JoinTable(name = "STORAGE_PRODUCT",
-            joinColumns = {
-                    @JoinColumn(name = "STORAGE_ID", referencedColumnName = "STORAGE_ID")
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "PRODUCT_NAME", referencedColumnName = "PRODUCT_NAME")
-            }
-    )
+    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="PRODUCT_NAME")
     private Product product;
     @Column(name = "AMOUNT")
     private int amount;
