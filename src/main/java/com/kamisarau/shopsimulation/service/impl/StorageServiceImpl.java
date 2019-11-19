@@ -5,8 +5,7 @@ import com.kamisarau.shopsimulation.model.Product;
 import com.kamisarau.shopsimulation.model.Storage;
 import com.kamisarau.shopsimulation.repository.StorageRepository;
 import com.kamisarau.shopsimulation.service.StorageService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +16,9 @@ import java.util.stream.IntStream;
 //todo need of saving product before save storage if product not exists CHECK
 
 @Service
+@Slf4j
 public class StorageServiceImpl implements StorageService {
     private StorageRepository storageRepository;
-    private static final Logger log = LogManager.getLogger("storage-log");
 
     @Autowired
     public StorageServiceImpl(StorageRepository storageRepository) {

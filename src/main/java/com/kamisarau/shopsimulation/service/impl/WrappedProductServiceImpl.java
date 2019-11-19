@@ -4,15 +4,14 @@ import com.kamisarau.shopsimulation.model.Category;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.repository.WrappedProductRepository;
 import com.kamisarau.shopsimulation.service.WrappedProductService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class WrappedProductServiceImpl implements WrappedProductService {
     private WrappedProductRepository wrappedProductRepository;
-    private static final Logger log = LogManager.getLogger("product-log");
 
     @Autowired
     public WrappedProductServiceImpl(WrappedProductRepository wrappedProductRepository) {

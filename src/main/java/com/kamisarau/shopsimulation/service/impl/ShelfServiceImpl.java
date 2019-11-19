@@ -5,8 +5,7 @@ import com.kamisarau.shopsimulation.model.Shelf;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.repository.ShelfRepository;
 import com.kamisarau.shopsimulation.service.ShelfService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class ShelfServiceImpl implements ShelfService {
     private ShelfRepository shelfRepository;
-    private static final Logger log = LogManager.getLogger("shelf-log");
+
     @Autowired
     public ShelfServiceImpl(ShelfRepository shelfRepository) {
         this.shelfRepository = shelfRepository;
@@ -57,7 +57,7 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public WrappedProduct storeProduct(WrappedProduct product, Shelf shelf) {
-        if(shelf.getProducts() == null) {
+        if (shelf.getProducts() == null) {
             shelf.setProducts(new ArrayList<>());
         }
 
@@ -71,7 +71,7 @@ public class ShelfServiceImpl implements ShelfService {
 
     @Override
     public List<WrappedProduct> storeProduct(List<WrappedProduct> products, Shelf shelf) {
-        if(shelf.getProducts() == null) {
+        if (shelf.getProducts() == null) {
             shelf.setProducts(new ArrayList<>());
         }
 

@@ -32,7 +32,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
     @Override
     public boolean isProductBiggerThanShelf(WrappedProduct product, Shelf shelf) {
-        log.info("Checking if product is bigger than shelf size");
+        log.info("Checking if product is bigger than shelf size: {}", shelf.getHeight() * shelf.getWidth() < product.getHeight() * product.getWidth());
         return shelf.getHeight() * shelf.getWidth() < product.getHeight() * product.getWidth();
     }
 
