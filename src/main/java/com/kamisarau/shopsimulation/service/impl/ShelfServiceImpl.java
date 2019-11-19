@@ -5,6 +5,8 @@ import com.kamisarau.shopsimulation.model.Shelf;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.repository.ShelfRepository;
 import com.kamisarau.shopsimulation.service.ShelfService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,7 @@ import java.util.Optional;
 @Service
 public class ShelfServiceImpl implements ShelfService {
     private ShelfRepository shelfRepository;
-
+    private static final Logger log = LogManager.getLogger("shelf-log");
     @Autowired
     public ShelfServiceImpl(ShelfRepository shelfRepository) {
         this.shelfRepository = shelfRepository;
@@ -28,6 +30,8 @@ public class ShelfServiceImpl implements ShelfService {
         ).orElseThrow(NoProductFound::new);
 
         shelfRepository.save(shelf);
+
+        log.info("Removing: {} from shelf with index: {}", removed.getName(), index);
 
         return removed;
     }
@@ -45,6 +49,9 @@ public class ShelfServiceImpl implements ShelfService {
                         }
                 ).orElseThrow(NoProductFound::new);
         shelfRepository.save(shelf);
+
+        log.info("Removing: {} from shelf with name: {}", removed.getName(), name);
+
         return removed;
     }
 
@@ -56,6 +63,9 @@ public class ShelfServiceImpl implements ShelfService {
 
         shelf.store(product);
         shelfRepository.save(shelf);
+
+        log.info("Storing: {} on shelf: {}", product, shelf);
+
         return product;
     }
 
@@ -67,6 +77,9 @@ public class ShelfServiceImpl implements ShelfService {
 
         products.forEach(shelf::store);
         shelfRepository.save(shelf);
+
+        log.info("Storing: {} on shelf: {}", products, shelf);
+
         return products;
     }
 }

@@ -1,15 +1,19 @@
 package com.kamisarau.shopsimulation.service;
 
+import com.kamisarau.shopsimulation.ShopSimulationApplication;
 import com.kamisarau.shopsimulation.model.Shelf;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.service.impl.MerchandiseServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@SpringBootTest(classes = ShopSimulationApplication.class)
+@ActiveProfiles("test")
 class MerchandiseServiceImplTest {
     @Autowired
     MerchandiseServiceImpl merchandiseService;
@@ -25,34 +29,23 @@ class MerchandiseServiceImplTest {
     }
 
     @Test
-    void testStoreOnShelf() {
+    void testCanStoreOnShelf() {
+        Shelf testShelf = new Shelf().setWidth(10).setHeight(10);
+        WrappedProduct testProduct = new WrappedProduct().setWidth(5).setHeight(5);
+
+        boolean actual = merchandiseService.storeOnShelf(testProduct, testShelf);
+
+        assertTrue(actual);
     }
 
     @Test
-    void testRemoveFromShelf() {
-    }
+    void testCantStoreOnShelf() {
+        Shelf testShelf = new Shelf().setWidth(10).setHeight(10);
+        WrappedProduct testProduct = new WrappedProduct().setWidth(10).setHeight(10);
+        merchandiseService.storeOnShelf(testProduct, testShelf);
 
-    @Test
-    void testSetPrice() {
-    }
+        boolean actual = merchandiseService.storeOnShelf(testProduct, testShelf);
 
-    @Test
-    void testSetCategory() {
-    }
-
-    @Test
-    void testGetProductFromStorage() {
-    }
-
-    @Test
-    void testBringProductToStorage() {
-    }
-
-    @Test
-    void testPrepareProduct() {
-    }
-
-    @Test
-    void testPrepareWrappedProduct() {
+        assertFalse(actual);
     }
 }

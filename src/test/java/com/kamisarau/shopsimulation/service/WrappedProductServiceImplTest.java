@@ -4,14 +4,17 @@ import com.kamisarau.shopsimulation.ShopSimulationApplication;
 import com.kamisarau.shopsimulation.model.Category;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.repository.WrappedProductRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ActiveProfiles("test")
 @SpringBootTest(classes = ShopSimulationApplication.class)
 class WrappedProductServiceImplTest {
     @Autowired

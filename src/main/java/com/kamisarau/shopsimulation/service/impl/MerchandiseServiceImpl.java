@@ -1,10 +1,14 @@
 package com.kamisarau.shopsimulation.service.impl;
 
-import com.kamisarau.shopsimulation.model.*;
+import com.kamisarau.shopsimulation.model.Category;
+import com.kamisarau.shopsimulation.model.Product;
+import com.kamisarau.shopsimulation.model.Shelf;
+import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.service.MerchandiseService;
 import com.kamisarau.shopsimulation.service.ShelfService;
 import com.kamisarau.shopsimulation.service.StorageService;
 import com.kamisarau.shopsimulation.service.WrappedProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class MerchandiseServiceImpl implements MerchandiseService {
     private WrappedProductService wrappedProductService;
     private StorageService storageService;
     private ShelfService shelfService;
-
+//TODO add saving in db in storing methods
+//TODO add methods to add List of products to storage (eg. count each with same name and them use storeProducts method)
     @Autowired
     public MerchandiseServiceImpl(WrappedProductService wrappedProductService, StorageService storageService, ShelfService shelfService) {
         this.wrappedProductService = wrappedProductService;
@@ -26,18 +32,30 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
     @Override
     public boolean isProductBiggerThanShelf(WrappedProduct product, Shelf shelf) {
+        log.info("Checking if product is bigger than shelf size");
         return shelf.getHeight() * shelf.getWidth() < product.getHeight() * product.getWidth();
     }
 
     @Override
     public boolean storeOnShelf(WrappedProduct product, Shelf shelf) {
 
+
         if (isProductBiggerThanShelf(product, shelf)) {
+            log.warn("Given product is bigger than shelf size, exiting...");
+
             return false;
         }
 
+        if (shelf.getProducts() == null) {
+            shelf.setProducts(new ArrayList<>());
+            shelf.store(product);
+
+            return true;
+        }
+
         if (product.getWidth() < product.getHeight()) {
-            //always rotate so the width is always bigger than height
+            log.info("Rotating product: {} so the width: {} wiil be bigger than height: {}", product.getName(), product.getWidth(), product.getHeight());
+
             int temp = product.getWidth();
             product.setWidth(product.getHeight());
             product.setHeight(temp);
@@ -45,6 +63,7 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
         List<WrappedProduct> copyWithNewItem = new ArrayList<>(shelf.getProducts());
         copyWithNewItem.add(product);
+        log.debug("Creting the copy: {} of products on the shelf: {}", copyWithNewItem, shelf);
 
         int x = 1;
         int y = 1;
@@ -52,26 +71,32 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 
         for (WrappedProduct storedItem : copyWithNewItem) {
 
+            log.debug("Shelflevel is: {}", shelfLevel);
+
             if (shelf.getHeight() < shelfLevel + storedItem.getHeight()) {
+                log.debug("Product: {} doesnt fit, exiting...", storedItem);
                 return false;
             }
 
             if (shelf.getWidth() + 1 < x + storedItem.getWidth()) {
+                log.debug("Moving position to the {}, {}", 1, shelfLevel);
                 y = shelfLevel;
                 x = 1;
             }
 
             if (storedItem.getHeight() > shelfLevel - y) {
+                log.debug("Setting shelflevel to: {}", y + storedItem.getHeight());
                 shelfLevel = y + storedItem.getHeight();
             }
 
+            log.debug("Setting final position on: {}, {}", x, y);
             storedItem.setX(x);
             storedItem.setY(y);
 
             x += storedItem.getWidth();
         }
 
-        shelf.setProducts(copyWithNewItem);
+        shelfService.storeProduct(copyWithNewItem, shelf);
         return true;
     }
 

@@ -5,6 +5,8 @@ import com.kamisarau.shopsimulation.model.Product;
 import com.kamisarau.shopsimulation.model.Storage;
 import com.kamisarau.shopsimulation.repository.StorageRepository;
 import com.kamisarau.shopsimulation.service.StorageService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 //TODO add delete product by name
-//todo need of saving product before save storage if product not exists
+//todo need of saving product before save storage if product not exists CHECK
+
 @Service
 public class StorageServiceImpl implements StorageService {
     private StorageRepository storageRepository;
+    private static final Logger log = LogManager.getLogger("storage-log");
 
     @Autowired
     public StorageServiceImpl(StorageRepository storageRepository) {
@@ -30,9 +34,14 @@ public class StorageServiceImpl implements StorageService {
                                 .setProduct(newProduct)
                                 .setAmount(0)
                 );
+        log.info("Storing product: {} in storage: {}", newProduct, storage.getId());
+
         storage.setAmount(storage.getAmount() + 1);
 
         storageRepository.save(storage);
+
+        log.info("The amount of productin storage : {} now is: {}", newProduct, storage.getAmount());
+
         return storage.getProduct();
     }
 
@@ -47,6 +56,10 @@ public class StorageServiceImpl implements StorageService {
         storage.setAmount(storage.getAmount() + amount);
 
         storageRepository.save(storage);
+
+        log.info("Storing product: {} with amount of: {} in storage: {}", newProduct, amount, storage.getId());
+        log.info("The amount of product in storage: {} now is: {}", newProduct, storage.getAmount());
+
         return storage.getProduct();
     }
 
@@ -88,6 +101,10 @@ public class StorageServiceImpl implements StorageService {
         );
 
         storageRepository.save(storage);
+
+        log.info("Removing products: {} with amount of: {} in storage: {}", productName, amount, storage.getId());
+        log.info("The amount of product in storage: {} now is: {}", productName, storage.getAmount());
+
         return products;
     }
 }

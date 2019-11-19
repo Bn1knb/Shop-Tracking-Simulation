@@ -2,6 +2,7 @@ package com.kamisarau.shopsimulation.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.springframework.context.annotation.PropertySource;
 
@@ -12,8 +13,8 @@ import java.util.List;
 @Entity(name = "SHELF")
 @Data
 @Accessors(chain = true)
-@PropertySource(value = "classpath:shelf.properties")
 @NoArgsConstructor
+@ToString
 public class Shelf implements Storable, Serializable {
     @Id
     @SequenceGenerator(name = "pk_shelf_sequence", sequenceName = "entity_id_seq")

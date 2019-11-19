@@ -2,6 +2,7 @@ package com.kamisarau.shopsimulation.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.envers.Audited;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
+@ToString
 public class WrappedProduct extends AbstractRectangularItem implements Rotatable {
     @Id
     @Column(name = "WRAPPED_PRODUCT_NAME", unique = true)
