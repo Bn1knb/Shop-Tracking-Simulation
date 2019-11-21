@@ -50,7 +50,7 @@ public class ShelfServiceImpl implements ShelfService {
                 ).orElseThrow(NoProductFound::new);
         shelfRepository.save(shelf);
 
-        log.info("Removing: {} from shelf with name: {}", removed.getName(), name);
+        log.info("Removing: {} from shelf with name: {}", removed.getName(), shelf);
 
         return removed;
     }

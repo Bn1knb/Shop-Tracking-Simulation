@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
-//TODO add delete product by name
-//todo need of saving product before save storage if product not exists CHECK
 
 @Service
 @Slf4j

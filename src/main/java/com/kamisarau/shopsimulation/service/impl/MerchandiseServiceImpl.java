@@ -21,7 +21,8 @@ public class MerchandiseServiceImpl implements MerchandiseService {
     private WrappedProductService wrappedProductService;
     private StorageService storageService;
     private ShelfService shelfService;
-//TODO add saving in db in storing methods
+
+    //TODO add saving in db in storing methods
 //TODO add methods to add List of products to storage (eg. count each with same name and them use storeProducts method)
     @Autowired
     public MerchandiseServiceImpl(WrappedProductService wrappedProductService, StorageService storageService, ShelfService shelfService) {
@@ -97,12 +98,19 @@ public class MerchandiseServiceImpl implements MerchandiseService {
         }
 
         shelfService.storeProduct(copyWithNewItem, shelf);
+        log.info("Shelf: {} has: {} products", shelf, shelf.getProducts().size());
+        log.info("Shelf index is: {}%", getShelfCapacityIndex(shelf));
         return true;
     }
 
     @Override
     public WrappedProduct removeFromShelf(WrappedProduct wrappedProduct, Shelf shelf) {
         return shelfService.removeProduct(wrappedProduct.getName(), shelf);
+    }
+
+    @Override
+    public WrappedProduct removeFromShelf(String productName, Shelf shelf) {
+        return shelfService.removeProduct(productName, shelf);
     }
 
     @Override
@@ -142,5 +150,12 @@ public class MerchandiseServiceImpl implements MerchandiseService {
                 .setName(wrappedProduct.getName())
                 .setHeight(wrappedProduct.getHeight())
                 .setWidth(wrappedProduct.getWidth());
+    }
+
+    private double getShelfCapacityIndex(Shelf shelf) {
+        double sumOfProductsParams = shelf.getProducts().stream()
+                .mapToInt(wrappedProduct -> wrappedProduct.getWidth() * wrappedProduct.getHeight()).sum();
+
+        return sumOfProductsParams / (shelf.getHeight() * shelf.getWidth()) * 100;
     }
 }

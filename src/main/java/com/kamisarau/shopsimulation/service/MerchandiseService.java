@@ -14,6 +14,8 @@ public interface MerchandiseService {
 
     WrappedProduct removeFromShelf(WrappedProduct wrappedProduct, Shelf shelf);
 
+    WrappedProduct removeFromShelf(String productName, Shelf shelf);
+
     WrappedProduct setPrice(WrappedProduct product, double price);
 
     WrappedProduct setCategory(WrappedProduct wrappedProduct, Category category);

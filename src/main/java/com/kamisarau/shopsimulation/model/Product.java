@@ -1,6 +1,7 @@
 package com.kamisarau.shopsimulation.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @NoArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Product implements Serializable {
     @Id
     @Column(name = "PRODUCT_NAME", unique = true)

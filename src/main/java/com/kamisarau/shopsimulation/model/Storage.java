@@ -1,6 +1,7 @@
 package com.kamisarau.shopsimulation.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 @ToString
+@EqualsAndHashCode
 public class Storage implements Serializable {
     @Id
     @SequenceGenerator(name = "pk_storage_sequense", sequenceName = "entity_id_seq", allocationSize = 1)
