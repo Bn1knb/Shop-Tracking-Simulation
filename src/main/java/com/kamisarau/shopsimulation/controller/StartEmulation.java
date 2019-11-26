@@ -17,7 +17,7 @@ public class StartEmulation {
     }
 
     @GetMapping
-    public ResponseEntity start(@RequestParam int number) { //todo thinks of storing shelf in cache
+    public ResponseEntity start(@RequestParam int number) {
         randomiser.populateStorageWithProducts();
         randomiser.doRandomOperations(number);
         return new ResponseEntity(HttpStatus.OK);
