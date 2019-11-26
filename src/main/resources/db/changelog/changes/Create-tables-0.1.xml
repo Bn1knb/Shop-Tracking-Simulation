@@ -1,0 +1,81 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            drop table if exists product cascade;
+            drop table if exists revinfo cascade;
+            drop table if exists shelf cascade;
+            drop table if exists shelf_products cascade;
+            drop table if exists shop_storage cascade;
+            drop table if exists wrapped_product cascade;
+            drop table if exists wrapped_product_aud cascade;
+            drop sequence if exists entity_id_seq;
+            drop sequence if exists hibernate_sequence;
+            drop sequence if exists pk_storage_sequence;
+            drop sequence if exists pk_wrapped_product_sequence;
+
+            create sequence entity_id_seq start 1 increment 50;
+            create sequence hibernate_sequence start 1 increment 1;
+            create sequence pk_storage_sequence start 1 increment 50;
+            create sequence pk_wrapped_product_sequence start 1 increment 50;
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table wrapped_product (wrapped_product_id bigserial not null unique, wrapped_product_name varchar(255) not null, x_position int4, y_position int4,
+            wrapperd_product_category varchar(255), wrapped_product_height int4, wrapped_product_price float8,
+            wrapperd_product_width int4, primary key (wrapped_product_id));
+
+            create table product (product_name varchar(255) not null, product_height int4,
+            product_width int4, primary key (product_name));
+        </sql>
+    </changeSet>
+    <changeSet id="3" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table shelf (shelf_id bigserial not null, height int4, width int4, primary key (shelf_id));
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table shelf_products (shelf_id int8 not null, product_id int8 not
+            null);
+        </sql>
+    </changeSet>
+    <changeSet id="5" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table shop_storage (storage_id int8 not null, amount int4, default_amount int4, product_name varchar(255), primary key (storage_id));
+        </sql>
+    </changeSet>
+    <changeSet id="7" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table wrapped_product_aud (wrapped_product_id int8 not null, rev int4 not null, revtype
+            int2, wrapped_product_price float8, primary key (wrapped_product_id, rev));
+        </sql>
+    </changeSet>
+    <changeSet id="8" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            create table revinfo (rev int4 not null, revtstmp int8, primary key (rev));
+        </sql>
+    </changeSet>
+    <changeSet id="9" author="Anton">
+        <sql dbms="postgresql"
+             endDelimiter=";">
+            alter table shelf_products add constraint UK_tegi5qcw18cw5ufb1oowuqbhc unique (product_id);
+            alter table shelf_products add constraint FK8uhq5eyib2lmqr9votamxoec9 foreign key (product_id) references wrapped_product;
+            alter table shelf_products add constraint FK16jkf9yvs14yjoeka7g8uth16 foreign key (shelf_id) references shelf;
+            alter table shop_storage add constraint FKl6k63d8712b3p36x4ifnx6q9n foreign key (product_name) references product;
+            alter table wrapped_product_aud add constraint FK9e98hat4ga1dgx3gox5pywcrv foreign key (rev) references revinfo;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

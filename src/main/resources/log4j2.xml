@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+        <property name="LOGS" value="C:\\logs"/>
+    </Properties>
+    <Appenders>
+
+        <!-- console appender for all -->
+        <Console name="console-log" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%t] %c{1} - %msg%n"/>
+        </Console>
+
+        <!-- file appender for storage service-->
+        <RollingFile name="storage-log" fileName="${LOGS}/storage.log"
+                     filePattern="${LOGS}/storage-%d{yyyy-MM-dd}.log">
+
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c{1} - %msg%n</pattern>
+            </PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+
+        <!-- file appender for shelf service -->
+        <RollingFile name="shelf-log" fileName="${LOGS}/shelf.log"
+                     filePattern="${LOGS}/shelf-%d{yyyy-MM-dd}.log">
+
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c{1} - %msg%n</pattern>
+            </PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- file appender for product service -->
+        <RollingFile name="product-log" fileName="${LOGS}/product.log"
+                     filePattern="${LOGS}/product-%d{yyyy-MM-dd}.log">
+
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c{1} - %msg%n</pattern>
+            </PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+        <!-- file appender for merchandise service -->
+        <RollingFile name="merchandise-log" fileName="${LOGS}/merchandise.log"
+                     filePattern="${LOGS}/merchandise-%d{yyyy-MM-dd}.log">
+
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c{1} - %msg%n</pattern>
+            </PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+
+        <!-- file appender for randomiser service -->
+        <RollingFile name="randomiser-log" fileName="${LOGS}/randomiser.log"
+                     filePattern="${LOGS}/randomiser-%d{yyyy-MM-dd}.log">
+
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c{1} - %msg%n</pattern>
+            </PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl.ShelfServiceImpl" level="info" additivity="false">
+            <appender-ref ref="shelf-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl.StorageServiceImpl" level="info" additivity="false">
+            <appender-ref ref="storage-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl.WrappedProductServiceImpl" level="info" additivity="false">
+            <appender-ref ref="product-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl.MerchandiseServiceImpl" level="info" additivity="false">
+            <appender-ref ref="merchandise-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl.RandomiserImpl" level="info" additivity="false">
+            <appender-ref ref="randomiser-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl" level="error" additivity="false">
+            <appender-ref ref="console-log" level="error"/>
+        </Logger>
+
+
+        <Root level="info" additivity="false">
+            <AppenderRef ref="console-log"/>
+        </Root>
+    </Loggers>
+</Configuration>
