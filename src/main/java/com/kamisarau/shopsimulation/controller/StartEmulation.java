@@ -17,7 +17,7 @@ public class StartEmulation {
     }
 
     @GetMapping
-    public ResponseEntity start(@RequestParam int number) {
+    public ResponseEntity start(@RequestParam(defaultValue = "10", required = false) int number) {
         randomiser.populateStorageWithProducts();
         randomiser.doRandomOperations(number);
         return new ResponseEntity(HttpStatus.OK);
