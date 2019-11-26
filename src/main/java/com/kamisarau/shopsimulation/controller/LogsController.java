@@ -17,7 +17,7 @@ import static com.kamisarau.shopsimulation.util.LogStrategyChooser.choose;
 public class LogsController {
 
     @GetMapping(produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<Resource> getLogs(@RequestParam(defaultValue = "all", name = "type") String type,
+    public ResponseEntity<Resource> getLogs(@RequestParam(defaultValue = "all", required = false) String type,
                                             @RequestParam(required = false) Date date) {
         LogServiceStrategy logServiceStrategy = choose(type);
         ByteArrayResource resource = new ByteArrayResource(logServiceStrategy.getLogs(date));
