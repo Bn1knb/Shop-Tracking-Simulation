@@ -31,13 +31,13 @@ public class StorageServiceImpl implements StorageService {
                                 .setProduct(newProduct)
                                 .setAmount(0)
                 );
-        log.info("Storing product: {} in storage: {}", newProduct, storage.getId());
+        log.info("Storing product: {} in storage: {}", newProduct.getName(), storage.getId());
 
         storage.setAmount(storage.getAmount() + 1);
 
         storageRepository.save(storage);
 
-        log.info("The amount of productin storage : {} now is: {}", newProduct, storage.getAmount());
+        log.info("The amount of product in storage : {} now is: {}", newProduct.getName(), storage.getAmount());
 
         return storage.getProduct();
     }
@@ -54,8 +54,8 @@ public class StorageServiceImpl implements StorageService {
 
         storageRepository.save(storage);
 
-        log.info("Storing product: {} with amount of: {} in storage: {}", newProduct, amount, storage.getId());
-        log.info("The amount of product in storage: {} now is: {}", newProduct, storage.getAmount());
+        log.info("Storing product: {} with amount of: {} in storage: {}", newProduct.getName(), amount, storage.getId());
+        log.info("The amount of product in storage: {} now is: {}", newProduct.getName(), storage.getAmount());
 
         return storage.getProduct();
     }

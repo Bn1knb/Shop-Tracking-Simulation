@@ -60,6 +60,19 @@
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
             </Policies>
         </RollingFile>
+
+        <!-- file appender for randomiser service -->
+        <RollingFile name="randomiser-log" fileName="${LOGS}/randomiser.log"
+                     filePattern="${LOGS}/randomiser-%d{yyyy-MM-dd}.log">
+
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss} %c{1} - %msg%n</pattern>
+            </PatternLayout>
+
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
@@ -78,6 +91,14 @@
 
         <Logger name="com.kamisarau.shopsimulation.service.impl.MerchandiseServiceImpl" level="info" additivity="false">
             <appender-ref ref="merchandise-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl.RandomiserImpl" level="info" additivity="false">
+            <appender-ref ref="randomiser-log" level="info"/>
+        </Logger>
+
+        <Logger name="com.kamisarau.shopsimulation.service.impl" level="error" additivity="false">
+            <appender-ref ref="console-log" level="error"/>
         </Logger>
 
 

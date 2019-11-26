@@ -4,15 +4,12 @@ import com.kamisarau.shopsimulation.ShopSimulationApplication;
 import com.kamisarau.shopsimulation.model.Category;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.repository.WrappedProductRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @SpringBootTest(classes = ShopSimulationApplication.class)
@@ -32,13 +29,6 @@ class WrappedProductServiceImplTest {
     }
 
     @Test
-    void setPriceWithoutNameTest() {
-        WrappedProduct toSave = new WrappedProduct();
-
-        assertThrows(JpaSystemException.class, () -> wrappedProductService.setPrice(toSave, 11.1));
-    }
-
-    @Test
     void setCategoryTest() {
         WrappedProduct toSave = new WrappedProduct().setName("test product");
 
@@ -47,10 +37,4 @@ class WrappedProductServiceImplTest {
         assertEquals(saved.getCategory(), Category.FRUITS);
     }
 
-    @Test
-    void setCategoryWithoutNameTest() {
-        WrappedProduct toSave = new WrappedProduct();
-
-        assertThrows(JpaSystemException.class, () -> wrappedProductService.setCategory(toSave, Category.FRUITS));
-    }
 }

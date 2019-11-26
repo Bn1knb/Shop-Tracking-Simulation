@@ -14,11 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
-@Slf4j //todo add separate logger
+@Slf4j
 @RequiredArgsConstructor
 public class RandomiserImpl implements Randomiser {
     private ProductRepository productRepository;
@@ -59,13 +61,16 @@ public class RandomiserImpl implements Randomiser {
             storedProductNames.add(product.getName());
         });
 
+        storedProductNames = storedProductNames.stream().distinct().collect(Collectors.toList());
     }
 
     @Override
     public void doRandomOperations(int n) {
         for (int i = 0; i < n; i++) {
 
-            Product removedFromStorage = storageService.removeProduct(storedProductNames.get(RANDOM.nextInt(storedProductNames.size())));
+            Product removedFromStorage = storageService.removeProduct(
+                    storedProductNames.get(RANDOM.nextInt(storedProductNames.size()))
+            );
             WrappedProduct prepared = merchandiseService.prepare(removedFromStorage);
             merchandiseService.setPrice(prepared, RANDOM.nextInt(10) + 0.99);
 
@@ -88,7 +93,7 @@ public class RandomiserImpl implements Randomiser {
         //TODO loop while the stop button won't be pressed
     }
 
-    public static <T extends Enum<?>> T randomEnum(Class<T> clazz){
+    public static <T extends Enum<?>> T randomEnum(Class<T> clazz) {
         int x = RANDOM.nextInt(clazz.getEnumConstants().length);
         return clazz.getEnumConstants()[x];
     }

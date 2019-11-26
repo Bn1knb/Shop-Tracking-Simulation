@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -50,7 +51,7 @@ public class ShelfServiceImpl implements ShelfService {
                 ).orElseThrow(NoProductFound::new);
         shelfRepository.save(shelf);
 
-        log.info("Removing: {} from shelf with name: {}", removed.getName(), shelf);
+        log.info("Removing: {} from shelf with name: {}", removed.getName(), shelf.getId());
 
         return removed;
     }
@@ -64,21 +65,20 @@ public class ShelfServiceImpl implements ShelfService {
         shelf.store(product);
         shelfRepository.save(shelf);
 
-        log.info("Storing: {} on shelf: {}", product, shelf);
+        log.info("Storing: {}\n on shelf: {}", product.getName(), shelf);
 
         return product;
     }
 
     @Override
     public List<WrappedProduct> storeProduct(List<WrappedProduct> products, Shelf shelf) {
-        if (shelf.getProducts() == null) {
-            shelf.setProducts(new ArrayList<>());
-        }
+        shelf.setProducts(new ArrayList<>());
 
         products.forEach(shelf::store);
         shelfRepository.save(shelf);
 
-        log.info("Storing: {} on shelf: {}", products, shelf);
+        log.info("Storing: {}\n on shelf: {}",
+                products.stream().collect(Collectors.groupingBy(WrappedProduct::getName)), shelf.getId());
 
         return products;
     }

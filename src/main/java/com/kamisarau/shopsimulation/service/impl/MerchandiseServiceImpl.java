@@ -34,12 +34,23 @@ public class MerchandiseServiceImpl implements MerchandiseService {
     @Override
     public boolean isProductBiggerThanShelf(WrappedProduct product, Shelf shelf) {
         log.info("Checking if product is bigger than shelf size: {}", shelf.getHeight() * shelf.getWidth() < product.getHeight() * product.getWidth());
-        return shelf.getHeight() * shelf.getWidth() < product.getHeight() * product.getWidth();
+
+        if (shelf.getHeight() * shelf.getWidth() < product.getHeight() * product.getWidth()) {
+            return true;
+        }
+        return shelf.getWidth() < product.getWidth() || shelf.getHeight() < product.getHeight();
     }
 
     @Override
     public boolean storeOnShelf(WrappedProduct product, Shelf shelf) {
 
+        if (product.getWidth() < product.getHeight()) {
+            log.info("Rotating product: {} so the width: {} wiil be bigger than height: {}", product.getName(), product.getWidth(), product.getHeight());
+
+            int temp = product.getWidth();
+            product.setWidth(product.getHeight());
+            product.setHeight(temp);
+        }
 
         if (isProductBiggerThanShelf(product, shelf)) {
             log.warn("Given product is bigger than shelf size, exiting...");
@@ -52,14 +63,6 @@ public class MerchandiseServiceImpl implements MerchandiseService {
             shelf.store(product);
 
             return true;
-        }
-
-        if (product.getWidth() < product.getHeight()) {
-            log.info("Rotating product: {} so the width: {} wiil be bigger than height: {}", product.getName(), product.getWidth(), product.getHeight());
-
-            int temp = product.getWidth();
-            product.setWidth(product.getHeight());
-            product.setHeight(temp);
         }
 
         List<WrappedProduct> copyWithNewItem = new ArrayList<>(shelf.getProducts());
