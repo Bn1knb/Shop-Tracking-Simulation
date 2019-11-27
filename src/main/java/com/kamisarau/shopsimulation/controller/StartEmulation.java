@@ -1,5 +1,6 @@
 package com.kamisarau.shopsimulation.controller;
 
+import com.kamisarau.shopsimulation.model.Shelf;
 import com.kamisarau.shopsimulation.service.Randomiser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/start")
 public class StartEmulation {
     private Randomiser randomiser;
+    private static final Random RANDOM = new Random();
 
     @Autowired
     public StartEmulation(Randomiser randomiser) {
