@@ -1,5 +1,6 @@
 package com.kamisarau.shopsimulation.service;
 
+import com.kamisarau.shopsimulation.model.Shelf;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -12,5 +13,5 @@ public interface Randomiser {
 
     void doRandomOperations();
 
-    void doRandomOperations(int n);
+    void doRandomOperations(int n, Shelf shelf);
 }

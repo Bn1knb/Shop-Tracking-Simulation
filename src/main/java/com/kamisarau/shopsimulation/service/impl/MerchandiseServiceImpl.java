@@ -22,8 +22,8 @@ public class MerchandiseServiceImpl implements MerchandiseService {
     private StorageService storageService;
     private ShelfService shelfService;
 
-    //TODO add saving in db in storing methods
-//TODO add methods to add List of products to storage (eg. count each with same name and them use storeProducts method)
+
+//TODO add try catch blocks to prevent NoProductFound crash
     @Autowired
     public MerchandiseServiceImpl(WrappedProductService wrappedProductService, StorageService storageService, ShelfService shelfService) {
         this.wrappedProductService = wrappedProductService;

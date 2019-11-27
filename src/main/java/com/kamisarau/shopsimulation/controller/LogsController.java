@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,8 @@ import java.util.Date;
 
 import static com.kamisarau.shopsimulation.util.LogStrategyChooser.choose;
 
-@RestController("/logs")
+@RestController
+@RequestMapping("/logs")
 public class LogsController {
 
     @GetMapping(produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
