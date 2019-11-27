@@ -12,7 +12,7 @@
 
     <groupId>com.kamisarau</groupId>
     <artifactId>shop-simulation</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>RELEASE-1.0</version>
     <name>shop-simulation</name>
     <description>This program simulates work of the shop merchandiser and track all of his moves</description>
 
