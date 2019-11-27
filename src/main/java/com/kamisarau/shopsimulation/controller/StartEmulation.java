@@ -25,7 +25,6 @@ public class StartEmulation {
 
     @GetMapping
     public ResponseEntity start(@RequestParam(defaultValue = "10", required = false) int number) {
-        //todo thinks of storing shelf in cache and lock
         Shelf shelf = new Shelf().setHeight(RANDOM.nextInt(100)).setWidth(RANDOM.nextInt(100));
 
         randomiser.populateStorageWithProducts();
