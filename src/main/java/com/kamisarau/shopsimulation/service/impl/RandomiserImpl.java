@@ -4,11 +4,11 @@ import com.kamisarau.shopsimulation.model.Product;
 import com.kamisarau.shopsimulation.model.Shelf;
 import com.kamisarau.shopsimulation.model.WrappedProduct;
 import com.kamisarau.shopsimulation.repository.ProductRepository;
+import com.kamisarau.shopsimulation.repository.WrappedProductRepository;
 import com.kamisarau.shopsimulation.service.MerchandiseService;
 import com.kamisarau.shopsimulation.service.Randomiser;
 import com.kamisarau.shopsimulation.service.StorageService;
 import com.kamisarau.shopsimulation.util.RandomProductNames;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +26,16 @@ public class RandomiserImpl implements Randomiser {
     private ProductRepository productRepository;
     private StorageService storageService;
     private MerchandiseService merchandiseService;
-    @NonNull
-    private Shelf shelf;
+    private WrappedProductRepository wrappedProductRepository;
     private List<String> storedProductNames;
 
     @Autowired
     public RandomiserImpl(ProductRepository productRepository, StorageService storageService,
-                          MerchandiseService merchandiseService) {
+                          MerchandiseService merchandiseService, WrappedProductRepository wrappedProductRepository) {
         this.productRepository = productRepository;
         this.storageService = storageService;
         this.merchandiseService = merchandiseService;
-        shelf = new Shelf().setHeight(RANDOM.nextInt(100)).setWidth(RANDOM.nextInt(100));
+        this.wrappedProductRepository = wrappedProductRepository;
     }
 
     @Override
@@ -65,13 +64,15 @@ public class RandomiserImpl implements Randomiser {
     }
 
     @Override
-    public void doRandomOperations(int n) {
+    public void doRandomOperations(int n, Shelf shelf) {
         for (int i = 0; i < n; i++) {
 
             Product removedFromStorage = storageService.removeProduct(
                     storedProductNames.get(RANDOM.nextInt(storedProductNames.size()))
             );
             WrappedProduct prepared = merchandiseService.prepare(removedFromStorage);
+            wrappedProductRepository.save(prepared);
+
             merchandiseService.setPrice(prepared, RANDOM.nextInt(10) + 0.99);
 
             if (!merchandiseService.storeOnShelf(prepared, shelf)) {

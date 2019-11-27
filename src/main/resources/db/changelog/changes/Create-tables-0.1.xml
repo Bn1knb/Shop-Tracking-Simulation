@@ -57,8 +57,7 @@
     <changeSet id="7" author="Anton">
         <sql dbms="postgresql"
              endDelimiter=";">
-            create table wrapped_product_aud (wrapped_product_id int8 not null, rev int4 not null, revtype
-            int2, wrapped_product_price float8, primary key (wrapped_product_id, rev));
+            create table wrapped_product_aud (wrapped_product_id int8 not null, wrapped_product_name varchar(255), rev int4 not null, revtype int2, wrapped_product_price float8, primary key (wrapped_product_id, rev));
         </sql>
     </changeSet>
     <changeSet id="8" author="Anton">
