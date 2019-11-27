@@ -18,8 +18,10 @@ public class StartEmulation {
 
     @GetMapping
     public ResponseEntity start(@RequestParam(defaultValue = "10", required = false) int number) {
+        Shelf shelf = new Shelf().setHeight(RANDOM.nextInt(100)).setWidth(RANDOM.nextInt(100));
+        
         randomiser.populateStorageWithProducts();
-        randomiser.doRandomOperations(number);
+        randomiser.doRandomOperations(number, shelf);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
