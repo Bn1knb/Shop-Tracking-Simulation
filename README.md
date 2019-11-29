@@ -1,4 +1,7 @@
 # shopTrackingSimulation
+
+<img src="https://img.shields.io/badge/coverage-34%25-yellow"> <img src="https://img.shields.io/badge/version-1.0-blue"> <img src="https://img.shields.io/badge/sonarQube%20code%20quality-A-brightgreen">
+</br>
 This program simulates work of the shop merchandiser and track all of his moves.
 
 The first solution about paking items on the shelf (in our case <b>2D bin packing problem</b>) is to use shelf algorithm 
