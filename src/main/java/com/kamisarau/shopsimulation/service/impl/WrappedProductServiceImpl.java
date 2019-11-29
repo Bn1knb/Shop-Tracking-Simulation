@@ -19,6 +19,11 @@ public class WrappedProductServiceImpl implements WrappedProductService {
     }
 
     @Override
+    public void remove(WrappedProduct wrappedProduct) {
+        wrappedProductRepository.delete(wrappedProduct);
+    }
+
+    @Override
     public WrappedProduct setPrice(WrappedProduct product, double price) {
         log.info("Setting price: {} for product: {}", price, product.getName());
 

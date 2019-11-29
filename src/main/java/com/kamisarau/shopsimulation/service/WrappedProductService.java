@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface WrappedProductService {
+    void remove(WrappedProduct wrappedProduct);
+
     WrappedProduct setPrice(WrappedProduct product, double price);
 
     WrappedProduct setCategory(WrappedProduct product, Category category);

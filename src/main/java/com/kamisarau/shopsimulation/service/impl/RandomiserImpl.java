@@ -79,7 +79,10 @@ public class RandomiserImpl implements Randomiser {
 
                 merchandiseService.bringProductToStorage(prepared);
 
+                if (shelf.getProducts().isEmpty()) continue;
+
                 String[] names = shelf.getProducts().stream().map(WrappedProduct::getName).toArray(String[]::new);
+
                 Product removedFromShelf = merchandiseService.prepare(
                         merchandiseService.removeFromShelf(names[RANDOM.nextInt(names.length)], shelf)
                 );

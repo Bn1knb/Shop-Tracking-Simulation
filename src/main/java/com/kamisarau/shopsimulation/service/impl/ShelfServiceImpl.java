@@ -65,7 +65,7 @@ public class ShelfServiceImpl implements ShelfService {
         shelf.store(product);
         shelfRepository.save(shelf);
 
-        log.info("Storing: {}\n on shelf: {}", product.getName(), shelf);
+        log.info("Storing: {} on shelf: {}", product.getName(), shelf.getId());
 
         return product;
     }
@@ -77,7 +77,7 @@ public class ShelfServiceImpl implements ShelfService {
         products.forEach(shelf::store);
         shelfRepository.save(shelf);
 
-        log.info("Storing: {}\n on shelf: {}",
+        log.info("Storing: {} on shelf: {}",
                 products.stream().collect(Collectors.groupingBy(WrappedProduct::getName)), shelf.getId());
 
         return products;
