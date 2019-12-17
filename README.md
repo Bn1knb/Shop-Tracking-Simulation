@@ -1,4 +1,4 @@
-# shopTrackingSimulation
+# Shop Tracking Simulation
 
 <img src="https://img.shields.io/badge/coverage-34%25-yellow"> <img src="https://img.shields.io/badge/version-1.0-blue"> <img src="https://img.shields.io/badge/sonarQube%20code%20quality-A-brightgreen">
 </br>
